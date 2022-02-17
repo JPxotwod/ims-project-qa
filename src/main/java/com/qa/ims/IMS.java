@@ -11,6 +11,7 @@ import com.qa.ims.controller.OrderController;
 import com.qa.ims.persistence.dao.CustomerDAO;
 import com.qa.ims.persistence.dao.ItemDAO;
 import com.qa.ims.persistence.dao.OrderDAO;
+import com.qa.ims.persistence.dao.OrderItemDAO;
 import com.qa.ims.persistence.domain.Domain;
 import com.qa.ims.utils.DBUtils;
 import com.qa.ims.utils.Utils;
@@ -31,7 +32,8 @@ public class IMS {
 		final ItemDAO itemDAO = new ItemDAO();
 		this.items = new ItemController(itemDAO, utils);
 		final OrderDAO orderDAO = new OrderDAO();
-		this.orders = new OrderController(orderDAO, utils);
+        final OrderItemDAO orderItemDAO = new OrderItemDAO();
+		this.orders = new OrderController(orderDAO, orderItemDAO, itemDAO, utils);
 	}
 
 	public void imsSystem() {
@@ -74,7 +76,7 @@ public class IMS {
 
 			LOGGER.info(() ->"What would you like to do with " + domain.name().toLowerCase() + ":");
 
-			Action.printActions();
+			Action.printActions(domain);
 			Action action = Action.getAction(utils);
 
 			if (action == Action.RETURN) {
@@ -99,6 +101,15 @@ public class IMS {
 		case DELETE:
 			crudController.delete();
 			break;
+		case COST:
+			orders.CalculateCost();
+			break;
+		case DELETEITEM:
+			orders.DeleteItemFromOrder();
+			break;
+		case ADDITEM:
+			orders.AddItemToOrderItem();
+			break;
 		case RETURN:
 			break;
 		default:
@@ -107,3 +118,4 @@ public class IMS {
 	}
 
 }
+

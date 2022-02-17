@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.qa.ims.persistence.dao.ItemDAO;
+import com.qa.ims.persistence.dao.ItemDAOTest;
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.utils.Utils;
 
@@ -13,10 +13,10 @@ public class ItemController implements CrudController<Item> {
 	
 	public static final Logger LOGGER = LogManager.getLogger();
 
-	private ItemDAO itemDAO;
+	private ItemDAOTest itemDAO;
 	private Utils utils;
 
-	public ItemController(ItemDAO itemDAO, Utils utils) {
+	public ItemController(ItemDAOTest itemDAO, Utils utils) {
 		super();
 		this.itemDAO = itemDAO;
 		this.utils = utils;

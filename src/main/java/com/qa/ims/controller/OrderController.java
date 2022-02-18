@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.qa.ims.persistence.dao.ItemDAOTest;
+import com.qa.ims.persistence.dao.ItemDAO;
 import com.qa.ims.persistence.dao.OrderDAO;
 import com.qa.ims.persistence.dao.OrderItemDAO;
 import com.qa.ims.persistence.domain.Item;
@@ -19,10 +19,10 @@ public class OrderController implements CrudController<Order> {
 
 	private OrderDAO orderDAO;
 	private OrderItemDAO orderItemDAO;
-	private ItemDAOTest itemDAO;
+	private ItemDAO itemDAO;
 	private Utils utils;
 
-	public OrderController(OrderDAO orderDAO, OrderItemDAO orderItemDAO, ItemDAOTest itemDAO, Utils utils) {
+	public OrderController(OrderDAO orderDAO, OrderItemDAO orderItemDAO, ItemDAO itemDAO, Utils utils) {
         super();
         this.orderDAO = orderDAO;
         this.utils = utils;
@@ -61,13 +61,13 @@ public class OrderController implements CrudController<Order> {
 	 */
 	@Override
 	public Order update() {
-//		LOGGER.info("Please enter the id of the order you would like to update");
-//		Long id = utils.getLong();
-//		LOGGER.info("Please enter an order id");
-//		Long customerId = utils.getLong();
-//		Order order = orderDAO.update(new Order(id, customerId));
-//		LOGGER.info("Item Updated");
-		return null;
+		LOGGER.info("Please enter the id of the order you would like to update");
+		Long id = utils.getLong();
+		LOGGER.info("Please enter an order id");
+		Long customerId = utils.getLong();
+		Order order = orderDAO.update(new Order(id, customerId));
+		LOGGER.info("Item Updated");
+		return order;
 	}
 
 	/**

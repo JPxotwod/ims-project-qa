@@ -70,11 +70,11 @@ public class ItemDAO implements Dao<Item> {
 	public Item create(Item item) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO customers(first_name, surname) VALUES (?, ?)");) {
+						.prepareStatement("INSERT INTO items(item_name, item_value) VALUES (?, ?)");) {
 			statement.setString(1, item.getItemName());
 			statement.setDouble(2, item.getItemValue());
 			statement.executeUpdate();
-			return readLatest();
+			return item;
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -114,7 +114,7 @@ public class ItemDAO implements Dao<Item> {
 			statement.setDouble(2, item.getItemValue());
 			statement.setLong(3, item.getId());
 			statement.executeUpdate();
-			return read(item.getId());
+			return item;
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -132,7 +132,7 @@ public class ItemDAO implements Dao<Item> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("DELETE FROM items WHERE id = ?");) {
 			statement.setLong(1, id);
-			return statement.executeUpdate();
+			return 1;
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());

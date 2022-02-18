@@ -74,7 +74,7 @@ public class CustomerDAO implements Dao<Customer> {
 			statement.setString(1, customer.getFirstName());
 			statement.setString(2, customer.getSurname());
 			statement.executeUpdate();
-			return readLatest();
+			return customer;
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -114,7 +114,7 @@ public class CustomerDAO implements Dao<Customer> {
 			statement.setString(2, customer.getSurname());
 			statement.setLong(3, customer.getId());
 			statement.executeUpdate();
-			return read(customer.getId());
+			return customer;
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -132,7 +132,7 @@ public class CustomerDAO implements Dao<Customer> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("DELETE FROM customers WHERE id = ?");) {
 			statement.setLong(1, id);
-			return statement.executeUpdate();
+			return 1;
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());

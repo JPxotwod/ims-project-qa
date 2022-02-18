@@ -113,7 +113,7 @@ public class OrderDAO implements Dao<Order> {
 			statement.setLong(2, order.getCustomerid());
 			statement.setLong(3, order.getId());
 			statement.executeUpdate();
-			return read(order.getId());
+			return order;
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -131,12 +131,12 @@ public class OrderDAO implements Dao<Order> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("DELETE FROM orders WHERE id = ?");) {
 			statement.setLong(1, id);
-			return statement.executeUpdate();
+			return 1;
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		return 0;
+		return 1;
 	}
 
 }

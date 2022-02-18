@@ -18,7 +18,7 @@ public class OrderDAOTest {
 	@Before
 	public void setup() {
 		DBUtils.connect();
-		DBUtils.getInstance().init("src/test/resources/sql-schema.sql-Orders.sql", "src/test/resources/sql-data.sql-Orders.sql");
+		DBUtils.getInstance().init("src/test/resources/sql-schema.sql-Data.sql");
 	}
 
 	@Test

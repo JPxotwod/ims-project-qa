@@ -19,12 +19,12 @@ public class ItemDAOTest {
 	@Before
 	public void setup() {
 		DBUtils.connect();
-		DBUtils.getInstance().init("src/test/resources/sql-schema.sql-Items.sql");
+		DBUtils.getInstance().init("src/test/resources/sql-schema.sql-Data.sql");
 	}
 
 	@Test
 	public void testCreate() {
-		final Item created = new Item(2L, "telescope", 77.80D);
+		final Item created = new Item(5L, "telescope", 77.80D);
 		assertEquals(created, DAO.create(created));
 	}
 
@@ -48,7 +48,7 @@ public class ItemDAOTest {
 
 	@Test
 	public void testUpdate() {
-		final Item updated = new Item(1L, "baseball", 10.00D);
+		final Item updated = new Item(1L, "baseball", 13.33D);
 		assertEquals(updated, DAO.update(updated));
 
 	}

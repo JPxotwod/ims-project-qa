@@ -43,7 +43,8 @@ public class OrderControllerTest {
 	@Test
 	public void testCreate() {
 		final long id = 1L;
-		final long customerid; created = new Order(1L, 1L);
+		final long customerid = 1L; 
+		final Order created = new Order(1L, 1L);
 
 		Mockito.when(utils.getLong()).thenReturn(id, customerid);
 		Mockito.when(dao.create(created)).thenReturn(created);
@@ -68,16 +69,16 @@ public class OrderControllerTest {
 
 	@Test
 	public void testUpdate() {
-		Order updated = new Order(1L, 2L);
+	    Order updated = new Order(1L, 2L);
 
-		Mockito.when(this.utils.getLong()).thenReturn(1L);
+//		Mockito.when(this.utils.getLong()).thenReturn(1L);
 		Mockito.when(this.utils.getLong()).thenReturn(updated.getId(), updated.getCustomerid());
 		Mockito.when(this.dao.update(updated)).thenReturn(updated);
 
 		assertEquals(updated, this.controller.update());
 
-		Mockito.verify(this.utils, Mockito.times(1)).getLong();
-		Mockito.verify(this.utils, Mockito.times(2)).getString();
+		Mockito.verify(this.utils, Mockito.times(2)).getLong();
+//		Mockito.verify(this.utils, Mockito.times(2)).getString();
 		Mockito.verify(this.dao, Mockito.times(1)).update(updated);
 	}
 

@@ -13,7 +13,7 @@ import com.qa.ims.utils.DBUtils;
 
 public class OrderItemDOATest {
 
-	private OrderDAO DAO = new OrderDAO();
+	private OrderItemDAO DAO = new OrderItemDAO();
 	private OrderItemDAO OrderItemDAO = new OrderItemDAO();
 	
 	@Before
@@ -24,8 +24,11 @@ public class OrderItemDOATest {
 
 	@Test
 	public void testCreate() {
-		final OrderItem created = new OrderItem(2L, 3L, 1L);
-		assertEquals(created, DAO.create(created));
+		OrderItem Expected = new OrderItem(1L,1L,1L);
+		OrderItem Actual = OrderItemDAO.create(Expected);
+		assertEquals(Expected.getOrderid(),Actual.getOrderid());
+		assertEquals(Expected.getItemid(),Actual.getItemid());
+		assertEquals(Expected.getQuantity(),Actual.getQuantity());
 	}
 
 	@Test
@@ -42,8 +45,8 @@ public class OrderItemDOATest {
 
 	@Test
 	public void testRead() {
-		final long id = 1L;
-		assertEquals(new OrderItem(id, 1L, 1L), DAO.read(id));
+		final long orderid = 1L;
+		assertEquals(new OrderItem(orderid, 1L, 1L), DAO.read(orderid));
 	}
 
 	@Test

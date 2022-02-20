@@ -30,9 +30,7 @@ public class OrderItem {
 	public void setOrderid(Long orderid) {
 		this.orderid = orderid;
 	}
-	public Long getItemit() {
-		return itemid;
-	}
+
 	
 	public Long getQuantity() {
 		return quantity;

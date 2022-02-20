@@ -16,7 +16,9 @@ import com.qa.ims.controller.OrderController;
 import com.qa.ims.persistence.dao.ItemDAO;
 import com.qa.ims.persistence.dao.OrderDAO;
 import com.qa.ims.persistence.dao.OrderItemDAO;
+import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
+import com.qa.ims.persistence.domain.OrderItem;
 import com.qa.ims.utils.Utils;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -94,6 +96,49 @@ public class OrderControllerTest {
 		Mockito.verify(utils, Mockito.times(1)).getLong();
 		Mockito.verify(dao, Mockito.times(1)).delete(id);
 	}
+	
+	@Test
+	public void testCalculateCost() {
+		List<OrderItem> OrderItemReturned = new ArrayList<>();
+		OrderItemReturned.add(new OrderItem(1L, 1L, 1L));// Orderid, Itemid, Quantity
+
+		Mockito.when(utils.getLong()).thenReturn(1l);// pass order 1l
+		Mockito.when(OrderItemDAO.ReadAllOrdersBelongingToOrderid(1L)).thenReturn(OrderItemReturned);
+		Mockito.when(ItemDAO.read(1l)).thenReturn(new Item("football", 19.99d));// pass item id 1
+
+		assertEquals(19.99d * 1L, controller.CalculateCost(), 0.0002);
+
+		Mockito.verify(utils, Mockito.times(1)).getLong();
+		Mockito.verify(OrderItemDAO, Mockito.times(1)).ReadAllOrdersBelongingToOrderid(1L);
+		Mockito.verify(ItemDAO, Mockito.times(1)).read(1l);
+		
+	}
+	
+	@Test
+	public void testDeleteItemFromOrder() {
+		
+		Mockito.when(utils.getLong()).thenReturn(1L, 1L);
+		Mockito.when(OrderItemDAO.DeleteOrderItemUsingItemid(1L, 1L)).thenReturn(1);
+
+		assertEquals(1, controller.DeleteItemFromOrder());
+
+		Mockito.verify(utils, Mockito.times(2)).getLong();
+		Mockito.verify(OrderItemDAO, Mockito.times(1)).DeleteOrderItemUsingItemid(1L, 1L);
+
+	}
+
+	@Test
+	public void testAddItemFromOrder() {
+		OrderItem Returns = new OrderItem(1L, 1L, 1L);
+		Mockito.when(utils.getLong()).thenReturn(1L, 1L, 1L);// order, item, quantity
+		Mockito.when(OrderItemDAO.AddItemToOrderItem(1L, 1L, 1L)).thenReturn(Returns);
+
+		assertEquals(Returns, controller.AddItemToOrderItem());
+
+		Mockito.verify(utils, Mockito.times(3)).getLong();
+		Mockito.verify(OrderItemDAO, Mockito.times(1)).AddItemToOrderItem(1L, 1L, 1L);
+	}
+
 
 }
 

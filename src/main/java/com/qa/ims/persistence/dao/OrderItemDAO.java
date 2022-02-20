@@ -44,8 +44,9 @@ public class OrderItemDAO implements Dao<OrderItem> {
 	public OrderItem readLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM order_items ORDER BY id DESC LIMIT 1");) {
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM `order_items` ORDER BY id DESC LIMIT 1");) {
 			resultSet.next();
+			System.out.print(modelFromResultSet(resultSet));
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -62,7 +63,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
 	public OrderItem create(OrderItem orderitem) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO order_items(itemid, orderid, qauntity) VALUES (?, ?)");) {
+						.prepareStatement("INSERT INTO order_items (itemid, orderid, quantity) VALUES (?, ?, ?)");) {
 			statement.setLong(1, orderitem.getItemid());
 			statement.setLong(2, orderitem.getOrderid());
 			statement.setLong(3, orderitem.getQuantity());
@@ -72,9 +73,9 @@ public class OrderItemDAO implements Dao<OrderItem> {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		return null;
+		return orderitem;
 	}
-
+@Override
 	public OrderItem read(Long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("SELECT * FROM order_items WHERE id = ?");) {
@@ -104,7 +105,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
 			statement.setLong(1, orderitem.getItemid());
 			statement.setLong(2, orderitem.getOrderid());
 			statement.executeUpdate();
-			return read(orderitem.getItemid());
+			return orderitem;
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -128,14 +129,14 @@ public class OrderItemDAO implements Dao<OrderItem> {
 		}
 		return 0;
 	}
-	
+@Override
 	public OrderItem modelFromResultSet(ResultSet resultSet) throws SQLException {//values read correctly here not hex
 	
 		Long Itemid = resultSet.getLong("itemid");
 		Long Orderid = resultSet.getLong("orderid");
 		Long Quantity = resultSet.getLong("quantity");
 		
-		return new OrderItem(Itemid, Orderid, Quantity);
+		return new OrderItem(Orderid, Itemid, Quantity);
 	}
 
 	public OrderItem ReadLatest() {
@@ -143,7 +144,11 @@ public class OrderItemDAO implements Dao<OrderItem> {
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("SELECT * FROM order_items ORDER BY orderid DESC LIMIT 1");) {
 			resultSet.next();
-			return modelFromResultSet(resultSet);
+			Long Itemid = resultSet.getLong("itemid");
+			Long Orderid = resultSet.getLong("orderid");
+			Long Quantity = resultSet.getLong("quantity");
+			return new OrderItem(Orderid, Itemid, Quantity);
+//			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -183,7 +188,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
 
 	}
 	
-	public static int DeleteOrderItemUsingItemid(Long Itemid, Long Orderid) { 
+	public int DeleteOrderItemUsingItemid(Long Itemid, Long Orderid) { 
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE itemid = ? and orderid = ?");) {
 			statement.setLong(1, Itemid); 

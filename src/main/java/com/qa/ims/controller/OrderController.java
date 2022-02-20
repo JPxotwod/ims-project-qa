@@ -104,7 +104,7 @@ public class OrderController implements CrudController<Order> {
 		LOGGER.info(
 				"What is the id of the item that you would like to remove. If this item exists multiple times in an order all of the orders for that item will be removed.");
 		Long Itemid = utils.getLong();
-		int RecordsDeleted = OrderItemDAO.DeleteOrderItemUsingItemid(Itemid, Orderid);
+		int RecordsDeleted = orderItemDAO.DeleteOrderItemUsingItemid(Itemid, Orderid);
 		LOGGER.info(String.format("Item ID: %d was removed from Order ID: %d %d many times", Itemid, Orderid,
 				RecordsDeleted));
 		return RecordsDeleted;

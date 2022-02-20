@@ -21,13 +21,16 @@ public class OrderItemDOATest {
 	@Before
 	public void setup() {
 		DBUtils.connect();
-		DBUtils.getInstance().init("src/test/resources/sql-schema.sql-Data.sql");
+		DBUtils.getInstance().init("src/test/resources/sql-schema.sql-Data.sql", "src/test/resources/sql-schema.sql-OrderItems.sql" );
 	}
 
 	@Test
 	public void testCreate() {
-		final OrderItem created = new OrderItem(2L, 2L, 2L);
-		assertEquals(created, DAO.create(created));
+		OrderItem Expected = new OrderItem(26L,1L,1L);
+		OrderItem Actual = OrderItemDAO.create(Expected);
+		assertEquals(Expected.getItemid(),Actual.getItemid());
+		assertEquals(Expected.getOrderid(),Actual.getOrderid());
+		assertEquals(Expected.getQuantity(),Actual.getQuantity());
 	}
 
 	@Test
@@ -39,7 +42,12 @@ public class OrderItemDOATest {
 
 	@Test
 	public void testReadLatest() {
-		assertEquals(new OrderItem(1L, 1L, 1L), DAO.readLatest());
+//		assertEquals(new OrderItem(1L, 1L, 1L), DAO.readLatest());
+		OrderItem Expected = new OrderItem(25L,1L,1L);
+		OrderItem Actual = OrderItemDAO.readLatest();
+		assertEquals(Expected.getItemid(),Actual.getItemid());
+		assertEquals(Expected.getOrderid(),Actual.getOrderid());
+		assertEquals(Expected.getQuantity(),Actual.getQuantity());
 	}
 
 	@Test

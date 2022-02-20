@@ -142,7 +142,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
 	public OrderItem ReadLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM order_items ORDER BY orderid DESC LIMIT 1");) {
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM order_items ORDER BY itemid DESC LIMIT 1");) {
 			resultSet.next();
 			Long Itemid = resultSet.getLong("itemid");
 			Long Orderid = resultSet.getLong("orderid");

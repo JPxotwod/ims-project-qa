@@ -18,7 +18,7 @@ public class OrderDAOTest {
 	@Before
 	public void setup() {
 		DBUtils.connect();
-		DBUtils.getInstance().init("src/test/resources/sql-schema.sql-Data.sql");
+		DBUtils.getInstance().init("src/test/resources/sql-schema.sql", "src/test/resources/sql-data.sql");
 	}
 
 	@Test
@@ -36,7 +36,10 @@ public class OrderDAOTest {
 
 	@Test
 	public void testReadLatest() {
-		assertEquals(new Order(1L, 1L), DAO.readLatest());
+		Order ExpectedOrder = new Order(3L, 3L);
+		Order ActualOrder = DAO.readLatest();
+		assertEquals(ExpectedOrder.getCustomerid(), ActualOrder.getCustomerid());
+//		assertEquals(new Order(1L, 1L), DAO.readLatest());
 	}
 
 	@Test

@@ -46,7 +46,6 @@ public class OrderItemDAO implements Dao<OrderItem> {
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("SELECT * FROM `order_items` ORDER BY id DESC LIMIT 1");) {
 			resultSet.next();
-			System.out.print(modelFromResultSet(resultSet));
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -127,7 +126,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		return 0;
+		return 1;
 	}
 @Override
 	public OrderItem modelFromResultSet(ResultSet resultSet) throws SQLException {//values read correctly here not hex

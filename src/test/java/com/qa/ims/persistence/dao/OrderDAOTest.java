@@ -39,7 +39,7 @@ public class OrderDAOTest {
 		Order ExpectedOrder = new Order(3L, 3L);
 		Order ActualOrder = DAO.readLatest();
 		assertEquals(ExpectedOrder.getCustomerid(), ActualOrder.getCustomerid());
-//		assertEquals(new Order(1L, 1L), DAO.readLatest());
+		assertEquals(new Order(1L, 1L), DAO.readLatest());
 	}
 
 	@Test
